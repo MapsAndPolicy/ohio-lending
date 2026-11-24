@@ -699,6 +699,7 @@ th{cursor:pointer;background:#eef4fb;position:sticky;top:0}tr.r{cursor:pointer}t
 .lmi1{fill:url(#lmiP1);stroke:none}.lmi2{fill:url(#lmiP2);stroke:none}
 .bt.lm{margin-top:6px;display:flex}.bt.lm i{display:block;height:100%}.bt.lm i.l1{background:#3d1f78}.bt.lm i.l2{background:#a995d6}
 .st.rb{height:9px;margin-top:3px;opacity:.85}.rr .bl{display:block;margin-top:2px}.rchs{margin-top:4px;display:flex;flex-wrap:wrap;gap:3px 6px;align-items:center}.rch{font-size:.78rem;border:1px solid #b7cbe6;border-radius:10px;padding:1px 7px;background:#f4f8fd}.rch.sel{border-color:#14437a;background:#e3edf9}
+.pri{background:#0b2a52;color:#fff;border:0;border-radius:6px;padding:8px 12px;font:inherit;cursor:pointer;margin-top:6px}.pri:hover{background:#14437a}
 #rp{margin:16px 0 8px;padding:12px 14px;border:1px solid #b7cbe6;border-radius:6px;background:#fff}#rp h2{margin:0 0 4px;font-size:1.15rem;color:#0f2f5c}
 #rp .lg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.8rem;margin:8px 0}#rp .lg span{display:inline-flex;align-items:center;gap:5px}#rp .lg i{width:12px;height:12px;border-radius:2px;display:inline-block}
 #rp ol{list-style:none;margin:0;padding:0}.rr{display:grid;grid-template-columns:minmax(150px,1.1fr) minmax(150px,1fr) minmax(220px,1.9fr);gap:6px 16px;align-items:center;padding:9px 6px;border-top:1px solid #dbe5f2}
@@ -738,6 +739,7 @@ details{margin-top:12px;font-size:.85rem;color:#3e4c59}
 <label for="fl">Tract income level</label><select id="fl"><option value="-1">All</option><option value="1">Low income</option><option value="2">Moderate income</option><option value="12">Low or moderate income</option><option value="3">Middle income</option><option value="4">Upper income</option><option value="0">Income level not known</option></select>
 <label for="fm">Minimum applications per tract</label><select id="fm"><option>1</option><option>5</option><option selected>10</option><option>25</option><option>50</option></select>
 <button id="rs" type="button">Reset filters</button>
+<button id="frb" type="button" class="pri">Provide Fair Lending Report</button><span id="frn" class="mu" role="status"></span>
 </div>
 <div>
 <div class="seg" id="seg" role="group" aria-label="Show on map"></div>
@@ -746,7 +748,7 @@ details{margin-top:12px;font-size:.85rem;color:#3e4c59}
 <div class="hrow"><label class="sw"><input type="checkbox" id="hd" role="switch" checked><i></i><span>Display HMDA data</span></label><label class="sw"><input type="checkbox" id="wd" role="switch"><i></i><span>Show % white alone, not Hispanic (circles)</span></label><label class="sw"><input type="checkbox" id="ld" role="switch"><i></i><span>Show low- and moderate-income tracts (hatched)</span></label><label class="sw"><input type="checkbox" id="hl" role="switch"><i></i><span>Show 1930s redlining map</span></label><span class="ho" id="hop" hidden><label for="ho">Redlining fill strength (visible where tracts are unshaded)</label><input id="ho" type="range" min="20" max="90" value="60"></span></div>
 <p id="hm" class="mu" aria-live="polite" style="margin:0 0 6px"></p>
 <div id="mapbox"><div id="map"></div><div id="legend"></div><div id="wlegend" hidden></div><div id="llegend" hidden><b>Tract income level</b><br><svg width="16" height="12" aria-hidden="true"><rect width="16" height="12" fill="#fff"/><path d="M-2 14L14 -2M2 14L18 -2M6 14L22 -2M-6 14L10 -2" stroke="#3d1f78" stroke-width="2.4"/></svg> Low (under 50% of area median)<br><svg width="16" height="12" aria-hidden="true"><rect width="16" height="12" fill="#fff"/><path d="M-2 14L14 -2M3 14L19 -2M-7 14L9 -2" stroke="#8d74c4" stroke-width="1.4"/></svg> Moderate (50% to under 80%)<br><span class="mu">FFIEC tract income level for the year shown</span></div><div id="hlegend" hidden><b>1930s HOLC grade</b><br><i style="background:#76a865;border:2px solid #1e6b2a"></i>A Best<br><i style="background:#7cb5bd;border:2px solid #16808f"></i>B Still desirable<br><i style="background:#ffff00;border:2px solid #a98400"></i>C Definitely declining<br><i style="background:#d9838d;border:2px solid #b3202f"></i>D Hazardous<br><i style="background:#b8b8b8;border:2px solid #555"></i>Industrial / commercial<br><span class="mu">Outline = area boundary</span></div></div>
-<section id="rp" aria-labelledby="rph"><h2 id="rph">Lender report</h2><p id="rpt" class="mu"></p><div id="rpb" aria-live="polite"></div></section>
+<section id="rp" aria-labelledby="rph"><h2 id="rph">Lender report</h2><p><button id="frb2" type="button" class="pri">Provide Fair Lending Report</button> <span class="mu">Opens a printable report in a new tab for the area, year and lenders selected.</span></p><p id="rpt" class="mu"></p><div id="rpb" aria-live="polite"></div></section>
 <div class="tw"><table><thead><tr><th data-k="g" tabindex="0">Tract</th><th data-k="c" tabindex="0">County</th><th data-k="n" tabindex="0">Applications</th><th data-k="a" tabindex="0">Approved</th><th data-k="d" tabindex="0">Denied</th><th data-k="p" tabindex="0">Approval rate</th><th data-k="r" tabindex="0">Denial rate</th></tr></thead><tbody id="tb"></tbody></table></div>
 <button id="more" type="button">Show more rows</button> <button id="csv" type="button">Download table (CSV)</button>
 </div></div>
@@ -949,9 +951,9 @@ async function rpDraw(){const b=$('rpb'),y=YR;
  const noun=bas?'originated loans':'applications';
  /* each lender's CRA assessment-area mask for this year (Ohio tracts only) */
  const AAm=[];for(const k in AAJ){const l=AAJ[k][y];if(l&&l.length){const m=new Uint8Array(NT);l.forEach(i=>m[i]=1);AAm[+k]=m}}
- const mk=()=>({n:0,lo:0,ni:0,r:[0,0,0,0,0,0],jm:0,ol:0,om:0,ok:0,qn:0,qr:[0,0,0,0,0,0],qi:0,ql:0}),A=Array.from({length:LN.length},mk),T=mk();
+ const mk=()=>({n:0,lo:0,ni:0,r:[0,0,0,0,0,0],jm:0,ol:0,om:0,ok:0,qn:0,qr:[0,0,0,0,0,0],qi:0,ql:0,og:0,ap:0}),A=Array.from({length:LN.length},mk),T=mk();
  for(let k=0;k<R.length;k++){const v=R[k],t=v&4095;if(!AM[t])continue;if(f1v>=0&&((v>>19)&3)!=f1v)continue;if(f0>=0&&((v>>21)&3)!=f0)continue;
-  const li=(v>>12)&127,a=A[li],o=(v>>30)&1;
+  const li=(v>>12)&127,a=A[li],o=(v>>30)&1;a.ap++;T.ap++;if(o){a.og++;T.og++}
   if(o){const c=LY.charCodeAt(t)-48;if(c>0){a.ok++;T.ok++;if(c==1){a.ol++;T.ol++}else if(c==2){a.om++;T.om++}}}
   if(bas&&!o)continue;
   const r=(v>>23)&7,ic=(v>>26)&7;a.n++;a.r[r]++;T.n++;T.r[r]++;if(ic==0){a.lo++;T.lo++}else if(ic==4){a.ni++;T.ni++}
@@ -963,6 +965,7 @@ async function rpDraw(){const b=$('rpb'),y=YR;
  T.bm=BASE;T.bl=`all residents of ${AR?alabel(AR):'Ohio'}`;setRatio(T,BASE);
  A.forEach((a,i)=>{if(!a.n)return;const m=AAm[i];if(m){a.bm=bpop(m);a.bl=`CRA assessment area${AR?' within '+alabel(AR):''} (${RN(a.bm.nt)} tracts)`;a.aa=1}else{a.bm=BASE;const has=AAJ[i]&&Object.keys(AAJ[i]).length;a.bl=`${AR?alabel(AR):'Ohio'} as a whole (${has?'no assessment area on file for '+y:'no CRA assessment area in Ohio'})`;a.aa=0}
   setRatio(a,a.bm)});
+ window.RPL={A,T,y,bas,noun,area:AR?alabel(AR):'All of Ohio',names:[...sel],hasCo:!!C};
  const valid=a=>RSK=='lmin'?(a.ok>0):RSK=='lmip'?(a.ok>=RPMIN):rkey(RSK)?((+RSK[2]==4?a.qi:a.kn)>=RPMIN&&a.rt[+RSK[2]]!=null):a.n>=RPMIN;
  const key=a=>RSK=='inc'?a.lo/a.n:RSK=='lmip'?(a.ol+a.om)/a.ok:RSK=='lmin'?a.ol+a.om:rkey(RSK)?a.rt[+RSK[2]]:a.r[RSK]/a.n;
  let ids=sel.size?[...sel].map(n=>LN.indexOf(n)).filter(i=>i>=0):A.map((a,i)=>i).filter(i=>A[i].n>0).sort((x,y)=>A[y].n-A[x].n).slice(0,RPTOP);
@@ -993,6 +996,97 @@ $('rpb').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.datase
  const h=['Lender','Count basis','Applications or loans counted','Under $50,000 (%)','Income not reported (%)',...RC.map(c=>c+' (%)'),...RC.map(c=>c+' (count)'),'Originated loans in tracts with known income level','Originated loans in low-income tracts','Originated loans in moderate-income tracts','Originated loans in LMI tracts (%)','Joint applications between different groups (%)','Ratio White','Ratio Black','Ratio Hispanic','Ratio Asian','Ratio income under $50,000','Benchmark area','Loans counted for ratios'];
  const csv=[h.join(','),...RPROWS.map(r=>{const a=r.a,q=x=>a.n?(100*x/a.n).toFixed(1):'',f=x=>x==null?'':x.toFixed(3);return ['"'+r.nm.replace(/"/g,'""')+'"',RBASIS=='orig'?'originated loans':'all applications',a.n,q(a.lo),q(a.ni),...a.r.map(q),...a.r,a.ok,a.ol,a.om,a.ok?(100*(a.ol+a.om)/a.ok).toFixed(1):'',COC[YR]&&a.n?(100*a.jm/a.n).toFixed(2):'',...(a.rt||[null,null,null,null,null]).map(f),'"'+(a.bl||'').replace(/"/g,'""')+'"',a.qn].join(',')})].join('\n');
  const l=document.createElement('a');l.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));l.download='ohio_lender_report_'+YR+'.csv';l.click()}};
+/* Fair Lending Report: opens a print-friendly page in a new tab */
+const GN=['White (non-Hispanic)','Black','Hispanic or Latino','Asian','Borrowers with income under $50,000'],MINR=50;
+function reportRates(){const N2=new Int32Array(NT),D2=new Int32Array(NT),f=['fp','ft','fr','fi'].map(k=>+$(k).value),FL=+$('fl').value,LY=LV[YR];
+ for(let k=0;k<D.length;k++){const v=D[k];if(f[1]>=0&&((v>>19)&3)!=f[1])continue;if(f[0]>=0&&((v>>21)&3)!=f[0])continue;if(f[2]>=0&&((v>>23)&7)!=f[2])continue;if(f[3]>=0&&((v>>26)&7)!=f[3])continue;
+  const t=v&4095;if(!AM[t])continue;if(FL!=-1){const c=LY.charCodeAt(t)-48;if(FL==12?(c!=1&&c!=2):c!=FL)continue}N2[t]++;D2[t]+=(v>>29)&1}
+ return{N2,D2}}
+function shadeInfo(N_,D_,mn){const m=MT[cm],mv2=i=>m.k=='r'?100*D_[i]/N_[i]:m.k=='p'?100*(N_[i]-D_[i])/N_[i]:m.k=='n'?N_[i]:D_[i],vals=[];
+ for(let i=0;i<NT;i++)if(AM[i]&&N_[i]>=mn)vals.push(mv2(i));const s=vals.sort((a,b)=>a-b);
+ let br=m.pc?m.br:[.2,.4,.6,.8,.95].map(q=>s[Math.floor(q*(s.length-1))]||0);br=[...new Set(br)];const K=br.length+1,u=m.pc?'%':'';
+ const lb=[`Under ${f1(br[0])}${u}`,...br.slice(1).map((b,j)=>`${f1(br[j])}–${f1(b)}${u}`),`${f1(br[K-2])}${u} or more`];
+ return{m,mn,K,lb,col:i=>N_[i]>=mn?cl(br.filter(b=>mv2(i)>=b).length,K):null,nshade:vals.length}}
+function reportMap(){
+ const GF=[];G.features.forEach(f=>GF[f.properties.i]=f);const idx=[];for(let i=0;i<NT;i++)if(AM[i]&&GF[i])idx.push(i);if(!idx.length)return'';
+ const rings=g=>g.type=='Polygon'?g.coordinates:g.coordinates.flat();
+ let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;for(const i of idx)for(const r of rings(GF[i].geometry))for(const p of r){if(p[0]<x0)x0=p[0];if(p[0]>x1)x1=p[0];if(p[1]<y0)y0=p[1];if(p[1]>y1)y1=p[1]}
+ const cs=Math.cos((y0+y1)/2*Math.PI/180),W=520;let k=W/((x1-x0)*cs);if((y1-y0)*k>470)k=470/(y1-y0);const Wd=Math.round((x1-x0)*cs*k)+20,Ht=Math.round((y1-y0)*k)+20;
+ const P=p=>((p[0]-x0)*cs*k+10).toFixed(1)+' '+((y1-p[1])*k+10).toFixed(1);
+ const path=g=>rings(g).map(r=>'M'+r.map(P).join('L')+'Z').join('');
+ const {N2,D2}=reportRates(),mn=Math.max(+$('fm').value,20),sh=shadeInfo(N2,D2,mn),NO='#d9d9d9',by={},none=[],lv={1:[],2:[],3:[],0:[]};
+ for(const i of idx){const d=path(GF[i].geometry),c=sh.col(i);if(c)(by[c]=by[c]||[]).push(d);else none.push(d);const v=lvl(i);(lv[v==1||v==2?v:v==0?0:3]).push(d)}
+ const og=AR?path(AR.g):'',ol=og?`<path d="${og}" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><path d="${og}" fill="none" stroke="#0b2a52" stroke-width="2.6" stroke-linejoin="round"/>`:'';
+ const wrap=(inner,lab)=>`<svg viewBox="0 0 ${Wd} ${Ht}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${lab}">${inner}${ol}</svg>`;
+ const s1=wrap(`<path d="${none.join('')}" fill="${NO}" stroke="#fff" stroke-width=".6"/>${Object.keys(by).map(c=>`<path d="${by[c].join('')}" fill="${c}" stroke="#fff" stroke-width=".6"/>`).join('')}`,`${esc(sh.m.t)} by census tract in ${esc(alabel(AR))}`);
+ const LC={1:'#3d1f78',2:'#a995d6',3:'#ececf2',0:'#d9d9d9'};
+ const s2=wrap(Object.keys(lv).map(c=>`<path d="${lv[c].join('')}" fill="${LC[c]}" stroke="#fff" stroke-width=".6"/>`).join(''),`Tract income level in ${esc(alabel(AR))}`);
+ const sw=(c,t,b)=>`<span><i style="background:${c};${b||''}"></i>${t}</span>`;
+ const leg1=`<div class="lgd">${sh.lb.map((t,c)=>sw(cl(c,sh.K),t)).join('')}${sw(NO,`Fewer than ${mn} applications`)}${sw('#fff','Selected area','border:3px solid #0b2a52')}</div>`;
+ const leg2=`<div class="lgd">${sw(LC[1],'Low income')}${sw(LC[2],'Moderate income')}${sw(LC[3],'Middle or upper income')}${sw(LC[0],'Not known')}</div>`;
+ return `<section><h2>Maps of the selected area</h2><div class="maps"><figure><figcaption><b>${esc(sh.m.t)}</b>, all lenders combined, ${YR}</figcaption>${s1}${leg1}</figure><figure><figcaption><b>Tract income level</b> (FFIEC, ${YR})</figcaption>${s2}${leg2}</figure></div><p class="mu">Census tracts are drawn without a street map. The left map always shows all top-100 lenders combined, even when specific lenders are selected, because a few lenders have too few applications in most tracts for a reliable map. It follows the loan purpose, loan type, race, income and tract-level settings on the screen. Tracts with fewer than ${mn} applications are left gray, since a rate based on a few applications can swing widely. Large rural tracts can look prominent on a map even though they hold few applications.</p></section>`}
+async function fairReport(){
+ const w=window.open('','_blank'),nt=$('frn');
+ if(!w){nt.textContent='Your browser blocked the new tab. Please allow pop-ups for this page and try again.';return}
+ nt.textContent='';w.document.write('<!doctype html><title>Preparing report…</title><p style="font:16px sans-serif;padding:20px">Preparing the report…</p>');
+ try{await rpDraw()}catch(e){}
+ const R=window.RPL;if(!R||R.y!==YR||!R.A){w.document.body.innerHTML='<p style="font:16px sans-serif;padding:20px">The report data could not be loaded. Please close this tab and try again.</p>';return}
+ const {A,T,y,bas,noun,names}=R,area=R.area=='All of Ohio'?'Ohio':R.area,C=R.hasCo,lenders=A.map((a,i)=>({a,i,nm:LN[i]})).filter(o=>o.a.n>0||o.a.og>0);
+ const shareG=(a,g)=>g<4?(a.kn>0?100*a.qr[g]/a.kn:null):(a.qi>0?100*a.ql/a.qi:null),benG=(a,g)=>g<4?(a.bm.t?100*a.bm.g[g]/a.bm.t:null):(a.bm.hh?100*a.bm.u/a.bm.hh:null),cntG=(a,g)=>g<4?a.qr[g]:a.ql;
+ const elig=(a,g)=>a.n>0&&(g<4?a.kn:a.qi)>=MINR&&a.rt&&a.rt[g]!=null;
+ const rt=x=>x==null?'–':x.toFixed(2),tag=a=>a.aa?'CRA assessment area':'Selected area';
+ const table=(hd,rows,cls)=>`<table class="${cls||''}"><thead><tr>${hd.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>`;
+ const fl=[$('fp').value>=0?$('fp').selectedOptions[0].text:'All loan purposes',$('ft').value>=0?$('ft').selectedOptions[0].text:'All loan types'];
+ const sec=[];
+ const rrow=(o,g,n)=>`<tr><td class="n">${n}</td><td>${esc(o.nm)}</td><td class="r"><b>${rt(o.a.rt[g])}${cntG(o.a,g)<30?'*':''}</b></td><td class="r">${p1(shareG(o.a,g))}</td><td class="r">${p1(benG(o.a,g))}</td><td class="r">${RN(cntG(o.a,g))}</td><td>${tag(o.a)}</td></tr>`;
+ const RH=['#','Lender','Ratio','Lender’s share','Residents’ share','Loans','Benchmark'];
+ const ctx=g=>`<p class="mu">All lenders combined: ratio <b>${rt(T.rt[g])}</b> (lenders’ share ${p1(shareG(T,g))}, ${g<4?'residents’':'households’'} share ${p1(benG(T,g))}).</p>`;
+ const head=`<header><h1>Fair Lending Report</h1><p class="sub">Ohio Fair Lending Reporter · The Fair Housing Center</p><table class="crit"><tr><th>Geography</th><td>${esc(area)}${AR?` (${AR.m.length} census tract${AR.m.length==1?'':'s'}; about ${RN(Math.round(T.bm.t))} residents)`:' (all census tracts in Ohio)'}</td></tr><tr><th>Year</th><td>${y}</td></tr><tr><th>Loan filters</th><td>${esc(fl.join('; '))}</td></tr><tr><th>Counting</th><td>${bas?'Originated loans only':'All applications received (including denied, withdrawn and incomplete)'}; low- and moderate-income tract measures always use originated loans.</td></tr><tr><th>Lenders</th><td>${names.length?esc(names.join('; '))+' (selected)':'Top 100 Ohio lenders by number of applications, 2022–2025'}</td></tr><tr><th>Prepared</th><td>${new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})}</td></tr></table></header>`;
+ if(AR)sec.push(reportMap());
+ const vol=[...lenders].filter(o=>o.a.og>0).sort((x,z)=>z.a.og-x.a.og);
+ if(!names.length){
+  const vrows=vol.slice(0,10).map((o,k)=>`<tr><td class="n">${k+1}</td><td>${esc(o.nm)}</td><td class="r"><b>${RN(o.a.og)}</b></td><td class="r">${p1(100*o.a.og/Math.max(1,T.og))}</td><td class="r">${RN(o.a.ap)}</td></tr>`);
+  sec.push(`<section><h2>1. Top lenders by loans originated</h2><p>${RN(T.og)} loans were originated by these lenders in ${esc(area)} in ${y}. The lenders that originated the most:</p>${vrows.length?table(['#','Lender','Originated loans','Share of all originations','Applications received'],vrows):'<p>No originated loans match these settings.</p>'}</section>`);
+  let sn=2;
+  for(let g=0;g<5;g++){const E=lenders.filter(o=>elig(o.a,g)).sort((x,z)=>z.a.rt[g]-x.a.rt[g]);
+   let body;if(E.length<2)body=`<p>Fewer than two lenders had at least ${MINR} ${g<4?'loans with a reported race or ethnicity':'loans with reported income'} here, so no ranking is shown.</p>`;
+   else if(E.length<=10)body=`<p>${E.length} lenders had enough loans to rank (at least ${MINR}). Listed from highest to lowest ratio:</p>`+table(RH,E.map((o,k)=>rrow(o,g,k+1)));
+   else{body=`<p>${E.length} lenders had enough loans to rank (at least ${MINR}).</p><h3>Highest ratios</h3>`+table(RH,E.slice(0,5).map((o,k)=>rrow(o,g,k+1)))+`<h3>Lowest ratios</h3>`+table(RH,E.slice(-5).reverse().map((o,k)=>rrow(o,g,E.length-k)))}
+   sec.push(`<section><h2>${sn++}. ${g<4?'Ratio to residents: ':'Ratio to households: '}${GN[g]}</h2>${ctx(g)}${body}</section>`)}
+  const EL=lenders.filter(o=>o.a.ok>=MINR).sort((x,z)=>(z.a.ol+z.a.om)/z.a.ok-(x.a.ol+x.a.om)/x.a.ok);
+  const lrow=(o,n)=>`<tr><td class="n">${n}</td><td>${esc(o.nm)}</td><td class="r"><b>${p1(100*(o.a.ol+o.a.om)/o.a.ok)}</b></td><td class="r">${RN(o.a.ol+o.a.om)}</td><td class="r">${RN(o.a.ok)}</td></tr>`,LH=['#','Lender','Originated loans in LMI tracts (%)','LMI-tract loans','All originated loans'];
+  let lb='';if(EL.length<2)lb='<p>Too few lenders to rank.</p>';else if(EL.length<=10)lb=table(LH,EL.map((o,k)=>lrow(o,k+1)));else lb='<h3>Highest share in LMI tracts</h3>'+table(LH,EL.slice(0,5).map((o,k)=>lrow(o,k+1)))+'<h3>Lowest share in LMI tracts</h3>'+table(LH,EL.slice(-5).reverse().map((o,k)=>lrow(o,EL.length-k)));
+  const byN=[...lenders].filter(o=>o.a.ol+o.a.om>0).sort((x,z)=>(z.a.ol+z.a.om)-(x.a.ol+x.a.om)).slice(0,5);
+  sec.push(`<section><h2>${sn++}. Lending in low- and moderate-income (LMI) tracts</h2><p class="mu">Originated loans only. Low-income tracts are under 50% of the area median family income; moderate-income tracts are 50% to under 80%. All lenders combined: <b>${T.ok?p1(100*(T.ol+T.om)/T.ok):'–'}</b> (${RN(T.ol+T.om)} of ${RN(T.ok)} loans in tracts with a known income level).</p>${lb}<h3>Most loans in LMI tracts</h3>${byN.length?table(['#','Lender','LMI-tract loans','Share of its originated loans'],byN.map((o,k)=>`<tr><td class="n">${k+1}</td><td>${esc(o.nm)}</td><td class="r"><b>${RN(o.a.ol+o.a.om)}</b></td><td class="r">${o.a.ok?p1(100*(o.a.ol+o.a.om)/o.a.ok):'–'}</td></tr>`)):'<p>None.</p>'}</section>`)}
+ else{
+  names.slice(0,8).forEach((nm,s)=>{const i=LN.indexOf(nm),a=A[i];
+   if(!a||(!a.n&&!a.og)){sec.push(`<section class="pb"><h2>${esc(nm)}</h2><p>No ${noun} from this lender match the current settings.</p></section>`);return}
+   const rk=g=>{const E=lenders.filter(o=>elig(o.a,g)).sort((x,z)=>z.a.rt[g]-x.a.rt[g]),p=E.findIndex(o=>o.i===i);return p<0?'–':`${p+1} of ${E.length}`};
+   const volRank=vol.findIndex(o=>o.i===i);
+   const rows=[0,1,2,3,4].map(g=>{const sh=shareG(a,g),bn=benG(a,g);return `<tr><td>${GN[g]}</td><td class="r">${RN(cntG(a,g))}</td><td class="r">${p1(sh)}</td><td class="r">${p1(bn)}</td><td class="r"><b>${rt(a.rt[g])}${cntG(a,g)<30?'*':''}</b></td><td class="r">${rt(T.rt[g])}</td><td class="r">${elig(a,g)?rk(g):'too few loans'}</td><td><div class="bars"><i class="b1" style="width:${Math.min(100,sh||0)}%"></i><i class="b2" style="width:${Math.min(100,bn||0)}%"></i></div></td></tr>`});
+   const ELL=lenders.filter(o=>o.a.ok>=MINR).sort((x,z)=>(z.a.ol+z.a.om)/z.a.ok-(x.a.ol+x.a.om)/x.a.ok),pl=ELL.findIndex(o=>o.i===i);
+   sec.push(`<section class="${s?'pb':''}"><h2>${s+1}. ${esc(nm)}</h2>
+   <p>${RN(a.ap)} applications received and ${RN(a.og)} loans originated in ${esc(area)} in ${y}${volRank>=0?` (rank ${volRank+1} of ${vol.length} lenders by loans originated)`:''}. Benchmark area: <b>${esc(a.bl)}</b>.</p>
+   <h3>Ratios to residents</h3>
+   ${table(['Group','Loans','Lender’s share','Residents’ / households’ share','Ratio','All lenders’ ratio','Rank (1 = highest)','Lender (dark) vs. benchmark (light)'],rows,'prof')}
+   <p class="mu">Shares are out of ${noun} with a reported race, ethnicity or income. ${a.n?p1(100*a.r[5]/a.n):'–'} of this lender’s ${noun} did not report race or ethnicity. A ratio of 1.00 means the group’s share of the lender’s loans equals its share of the benchmark area’s residents. Ranks compare lenders with at least ${MINR} loans. * Fewer than 30 loans in the group, so the ratio is unstable.</p>
+   <h3>Low- and moderate-income tracts (originated loans)</h3>
+   <p>${a.ok?`<b>${p1(100*(a.ol+a.om)/a.ok)}</b> of this lender’s originated loans (${RN(a.ol+a.om)} of ${RN(a.ok)}) were in low- or moderate-income tracts (low ${p1(100*a.ol/a.ok)}, moderate ${p1(100*a.om/a.ok)}). All lenders combined: ${T.ok?p1(100*(T.ol+T.om)/T.ok):'–'}.${pl>=0?` Rank ${pl+1} of ${ELL.length} lenders (highest share = 1).`:''}`:'Not enough originated loans in tracts with a known income level.'}</p>
+   ${C&&a.n?`<h3>Joint applications</h3><p>${p1(100*a.jm/a.n)} of this lender’s ${noun} were joint applications between people in different groups (all lenders combined: ${p1(100*T.jm/T.n)}).</p>`:''}</section>`)});
+  if(names.length>8)sec.push(`<p class="mu">Only the first 8 selected lenders are shown.</p>`)}
+ sec.push(`<section class="pb"><h2>How to read this report</h2><ul>
+ <li><b>Ratio.</b> A group’s share of a lender’s loans divided by the group’s share of the residents (or, for income, households) in the lender’s benchmark area. Applicants whose race, ethnicity or income was not reported are left out of the lender’s share. A ratio below 1.00 means the group has a smaller share of the lender’s loans than of the residents.</li>
+ <li><b>Benchmark area.</b> For banks that report Community Reinvestment Act assessment areas in Ohio, the census tracts of those assessment areas (FFIEC CRA disclosure table D6, ${y}); only the lender’s loans in those tracts are used. For lenders with no assessment area (mortgage companies, credit unions and some small banks), the selected area. These benchmarks are not directly comparable.</li>
+ <li><b>Residents.</b> American Community Survey 2020–2024 five-year estimates (U.S. Census Bureau): white alone, Black alone and Asian alone (each not Hispanic), and Hispanic of any race. Estimates have margins of error that are larger for small areas. Household income is in 2024 dollars; mortgage applicant income is in the dollars of the loan year.</li>
+ <li><b>Tract income level.</b> FFIEC census flat file for ${y}. Tracts with no income level are counted in neither group.</li>
+ <li><b>Rankings.</b> Only lenders with at least ${MINR} loans in the measure are ranked. An asterisk (*) marks a ratio based on fewer than 30 loans in the group, which is unstable. Lenders differ in markets, products and size, so rankings should be read with care.</li>
+ <li><b>Data.</b> Home Mortgage Disclosure Act modified loan-level data, ${y} (FFIEC/CFPB): home purchase, refinance and home improvement loans on one- to four-unit homes occupied as a principal or second residence, excluding business-purpose loans and loans purchased from other lenders. Race is the first race reported by the primary applicant; Hispanic ethnicity takes precedence. Totals will not match the FFIEC Data Browser exactly, because its counts use different scope rules.</li></ul>
+ <p class="disc"><b>Important.</b> These figures describe lending patterns and are not findings of discrimination or of compliance. Differences between a lender’s share and residents’ share can reflect many factors, including where a lender operates, its products, applicant credit and income, and application volume. Credit scores and other underwriting details are not in the public data. This report is a starting point for further review.</p></section>`);
+ const css=`*{box-sizing:border-box}body{font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#1d2733;max-width:900px;margin:0 auto;padding:18px 22px}h1{font-size:1.7rem;margin:0}h2{font-size:1.2rem;border-bottom:2px solid #0b2a52;padding-bottom:3px;margin:26px 0 8px;color:#0b2a52}h3{font-size:1rem;margin:14px 0 4px}.sub{margin:2px 0 10px;color:#4a5668}.mu{color:#4a5668;font-size:.85rem}.np{position:sticky;top:0;background:#fff;padding:8px 0;border-bottom:1px solid #d6dbe2;z-index:5}.np button{font:inherit;padding:7px 14px;border:0;border-radius:6px;background:#0b2a52;color:#fff;cursor:pointer}table{border-collapse:collapse;width:100%;margin:6px 0 8px;font-size:.88rem}th,td{border:1px solid #cfd5dd;padding:4px 7px;text-align:left;vertical-align:top}th{background:#eef2f7}td.r{text-align:right;font-variant-numeric:tabular-nums}td.n{width:2.2em;text-align:right}table.crit th{width:9em}.maps{display:grid;grid-template-columns:1fr 1fr;gap:12px}figure{margin:0}figcaption{font-size:.85rem;margin-bottom:3px}.maps svg{width:100%;height:auto;max-height:480px;border:1px solid #cfd5dd;background:#fff}@media(max-width:640px){.maps{grid-template-columns:1fr}}.lgd{font-size:.82rem;margin-top:6px}.lgd span{display:inline-block;margin-right:12px}.lgd i{display:inline-block;width:14px;height:11px;margin-right:4px;vertical-align:-1px}.bars{width:120px;height:18px}.bars i{display:block;height:7px;margin:1px 0}.bars .b1{background:#0b2a52}.bars .b2{background:#9fb4d3}.disc{border:1px solid #cfd5dd;background:#f8fafc;padding:8px 10px;margin-top:10px}ul{padding-left:20px}li{margin:4px 0}
+@page{size:letter;margin:.6in}@media print{body{padding:0;max-width:none;font-size:11.5px}.np{display:none}table,tr,figure,.lgd,.disc{break-inside:avoid}h2,h3{break-after:avoid}.pb{break-before:page}th,.bars i,.lgd i,.maps svg{-webkit-print-color-adjust:exact;print-color-adjust:exact}}`;
+ const doc=`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fair Lending Report: ${esc(area)}, ${y}</title><style>${css}</style></head><body><div class="np"><button type="button" onclick="window.print()">Print or save as PDF</button> <span class="mu">In the print window, choose “Save as PDF” as the destination.</span></div>${head}${sec.join('')}</body></html>`;
+ w.document.open();w.document.write(doc);w.document.close()}
+$('frb').onclick=fairReport;$('frb2').onclick=fairReport;
 map.on('popupopen',e=>{$('mapbox').classList.add('po');const el=e.popup.getElement(),d=el&&el.querySelector('details');
  if(d)d.addEventListener('toggle',()=>setTimeout(()=>{const m=$('map').getBoundingClientRect(),b=el.querySelector('.leaflet-popup-content-wrapper').getBoundingClientRect(),g=10;
   const dy=b.top<m.top+g?b.top-m.top-g:(b.bottom>m.bottom-g?b.bottom-m.bottom+g:0),dx=b.left<m.left+g?b.left-m.left-g:(b.right>m.right-g?b.right-m.right+g:0);
